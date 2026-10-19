@@ -1,4 +1,5 @@
 import About from "@/components/about";
+import Reveal from "@/components/animations/reveal";
 import Footer from "@/components/footer";
 import Hero from "@/components/hero";
 import Offerings from "@/components/offerings";
@@ -7,13 +8,24 @@ import Testimonials from "@/components/testimonials";
 
 export default function HomePage() {
   return (
-    <main className="bg-gray-900 p-3">
+    <main className="bg-background p-3">
       <SiteHeader username="Learner" />
-      <Hero />
-      <About />
-      <Offerings />
-      <Testimonials />
-      <Footer />
+
+      <Reveal>
+        <Hero />
+      </Reveal>
+      <Reveal delay={0.5}>
+        <About />
+      </Reveal>
+      <Reveal>
+        <Offerings />
+      </Reveal>
+      <Reveal>
+        <Testimonials />
+      </Reveal>
+      <Reveal>
+        <Footer />
+      </Reveal>
     </main>
   );
 }

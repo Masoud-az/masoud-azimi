@@ -12,18 +12,23 @@ export default function TestimonialsCard({
   comment,
 }: TestimonialsCardProps) {
   return (
-    <div dir="rtl" className="bg-black/20 rounded-3xl p-6 shadow-2xl mt-4">
-      <div className="flex items-center gap-6">
+    <div
+      dir="rtl"
+      className="bg-container-background rounded-3xl p-2 md:p-6 shadow-2xl mt-4"
+    >
+      <div className="flex items-center px-2 mt-2 gap-2 md:gap-6">
         <Image
           src={avatarUrl}
           alt="user avatar"
           width={60}
           height={60}
-          className="border border-orange-600 rounded-full"
+          className="border border-light4 rounded-full"
         />
-        <h3 className="text-orange-300 text-3xl font-extrabold">{username}</h3>
+        <h3 className="text-light3 text-xl md:text-3xl">{username}</h3>
       </div>
-      <p className="text-orange-200 text-xl font-bold leading-8">{comment}</p>
+      <p className="text-light4 p-4 mt-2 text-sm md:text-xl md:leading-8">
+        {comment}
+      </p>
     </div>
   );
 }

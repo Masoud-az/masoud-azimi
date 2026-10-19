@@ -1,30 +1,45 @@
+import clsx from "clsx";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 type CardProps = {
   imageSrc: string;
   heading: string;
   description: string;
+  isActive: boolean;
 };
 
-export default function Card({ imageSrc, heading, description }: CardProps) {
+export default function Card({
+  imageSrc,
+  heading,
+  description,
+  isActive,
+}: CardProps) {
   return (
-    <div className="flex flex-col items-center text-center py-16 px-12 rounded-3xl shadow-2xl bg-linear-to-br from-orange-600/80 to-orange-700 md:max-w-180">
-      <Image
-        src={imageSrc}
-        alt="guitar course"
-        width={600}
-        height={350}
-        className="object-cover rounded-2xl shadow-2xl"
-      />
-      <h2 className="font-extrabold text-5xl text-orange-100 mt-12 text-center">
-        {heading}
-      </h2>
-      <p className="font-bold text-2xl text-orange-100 mt-10 text-center leading-10">
-        {description}
-      </p>
-      <button className="bg-gray-800 text-2xl text-orange-100 hover:bg-gray-500 p-4 mt-12 rounded-2xl">
-        جزئیات بیشتر
-      </button>
+    <div
+      className={`relative overflow-hidden transition-[width] duration-700 text-center h-64 md:h-144 ${isActive ? "w-64" : "w-48"} md:w-2xl rounded-4xl shadow-2xl border-2 md:border-4 border-mid`}
+    >
+      <Image src={imageSrc} alt="guitar course" fill className="object-cover" />
+      <div className="absolute left-1/2 -translate-x-1/2 z-10 top-5/8 w-8/9 p-1 md:top-2/5 bg-black/60 rounded-4xl">
+        <h2 className="font-MyFont text-[10px] md:text-3xl text-light3 mt-2 md:mt-6 text-center">
+          {heading}
+        </h2>
+        <p className="hidden md:block font-MyFont md:text-xl text-light4 m-4  text-center leading-10">
+          {description}
+        </p>
+
+        <button
+          disabled={!isActive}
+          className={twMerge(
+            clsx(
+              "mb-2 mt-2 md:mb-4 transition-all duration-300 bg-light4 text-[8px] md:text-2xl text-background p-1 md:p-4 rounded-2xl",
+              isActive && "hover:bg-container-background hover:text-light4 ",
+            ),
+          )}
+        >
+          جزئیات بیشتر
+        </button>
+      </div>
     </div>
   );
 }

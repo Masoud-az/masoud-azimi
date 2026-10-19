@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "MyAccentFont";
+  src: url("/fonts/Jadid.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont";
+  src: url("/fonts/Lalezar-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@theme {
+  --font-MyAccentFont: "MyAccentFont", sans-serif;
+  --font-MyFont: "MyFont", sans-serif;
+  /* --color-background: #222831; */
+  --color-background: #0a0a0a;
+  /* --color-card-background: #393e46; */
+  --color-container-background: #141414;
+  --color-container-background2: #1f1f1f;
+  --color-container-background3: #040404;
+  --color-accent: #a63c06;
+  --color-light: #fbfbf2;
+  --color-light2: #f5f1ed;
+  --color-light3: #dad2bc;
+  --color-light4: #cccccc;
+  --color-light5: #a99985;
+  --color-mid: #252323;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-MyFont);
+  }
+}
