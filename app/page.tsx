@@ -9,7 +9,7 @@ import Testimonials from "@/components/testimonials";
 export default function HomePage() {
   return (
     <main className="bg-background p-3">
-      <SiteHeader username="Learner" />
+      <SiteHeader />
 
       <Reveal>
         <Hero />
