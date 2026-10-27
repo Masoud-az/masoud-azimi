@@ -16,7 +16,9 @@ export const users = pgTable(
     id: uuid("id").defaultRandom().primaryKey(),
     clerkUserId: text("clerk_user_id").unique().notNull(),
     username: text("username").unique().notNull(),
-    name: text("name").notNull(),
+    firstname: text("firstname").notNull(),
+    lastname: text("lastname").notNull(),
+    phoneNumber: text("phone_number").notNull(),
     avatarUrl: text("avatar_url"),
     role: userRoleEnum("role").default("USER").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
