@@ -17,7 +17,7 @@ export default function Card({
 }: CardProps) {
   return (
     <div
-      className={`relative overflow-hidden transition-[width] duration-700 text-center h-64 md:h-144 ${isActive ? "w-64" : "w-48"} md:w-2xl rounded-4xl shadow-2xl border-2 md:border-4 border-mid`}
+      className={`relative overflow-hidden transition-[width] duration-700 text-center h-64 sm:h-78 md:h-122 xl:h-144 ${isActive ? "w-64 " : "w-48"} sm:w-84 md:w-xl xl:w-2xl rounded-4xl shadow-2xl border-2 md:border-4 border-mid`}
     >
       <Image src={imageSrc} alt="guitar course" fill className="object-cover" />
       <div className="absolute left-1/2 -translate-x-1/2 z-10 top-5/8 w-8/9 p-1 md:top-2/5 bg-black/60 rounded-4xl">

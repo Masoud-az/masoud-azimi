@@ -100,8 +100,8 @@ export default function Carousel({ items }: CarouselProps) {
   if (items.length === 0) return null;
 
   return (
-    <div className="h-86 md:h-160 relative">
-      <div className="relative mt-12">
+    <div className="h-86 sm:h-96 md:h-140 xl:h-160 relative">
+      <div className="relative mt-12 md:mt-16">
         {items.map((item, index) => {
           const offset = getOffset(index);
           const isActive = index === activeIndex;

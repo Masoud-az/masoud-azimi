@@ -1,0 +1,17 @@
+import z from "zod";
+
+export const createTestimonialSchema = z
+  .object({
+    content: z.string().trim().min(1).max(500),
+  })
+  .strict();
+
+export type CreateTestimonialSchema = z.infer<typeof createTestimonialSchema>;
+
+export const deleteTestimonialSchema = z
+  .object({
+    testimonialId: z.uuid(),
+  })
+  .strict();
+
+export type DeleteTestimonialSchema = z.infer<typeof deleteTestimonialSchema>;

@@ -33,20 +33,20 @@ export function InputOTPForm({
   return (
     <Card
       dir="rtl"
-      className={`${isVerificationOpen ? "" : "hidden"} mx-auto max-w-md bg-container-background2 shadow-2xl border border-light4`}
+      className={`${isVerificationOpen ? "" : "hidden"} mx-auto max-w-64 sm:max-w-svw sm:w-86  bg-container-background2 shadow-2xl border border-light4 relative`}
     >
       <button
         aria-label="close sign up modal"
         onClick={closeAction}
         className="cursor-pointer"
       >
-        <X className="bg-container-background text-accent font-bold w-10 h-10 absolute right-6 top-6 p-1 rounded-xl transition-all duration-500 hover:rotate-90" />
+        <X className="bg-container-background text-accent font-bold w-8 h-8 absolute left-2 top-2 p-1 rounded-lg transition-all duration-500 hover:rotate-90" />
       </button>
       <CardHeader>
-        <CardTitle className="text-light4 font-MyFont">
+        <CardTitle className="text-light5 text-lg sm:text-xl font-MyFont">
           ایمیل خود را تایید کنید
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-sm hidden sm:block">
           کد ارسال شده به ایمیل زیر را وارد کنید:{" "}
           <span className="font-medium">{email}</span>
         </CardDescription>
@@ -54,11 +54,14 @@ export function InputOTPForm({
       <CardContent>
         <Field>
           <div className="flex items-center justify-between">
-            <FieldLabel htmlFor="otp-verification" className="text-light4">
+            <FieldLabel
+              htmlFor="otp-verification"
+              className="text-light5 mr-2 sm:text-lg"
+            >
               کد تایید:
             </FieldLabel>
           </div>
-          <div dir="ltr" className="text-light3">
+          <div dir="ltr" className="text-light4 justify-center ">
             <InputOTP
               value={verificationCode}
               onChange={(value) => setVerificationCode(value)}
@@ -66,13 +69,14 @@ export function InputOTPForm({
               id="otp-verification"
               required
             >
-              <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
+              <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-8 sm:*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-7 sm:*:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-lg">
+                {/* <InputOTPGroup className="h-8 w-7 text-lg"> */}
                 <InputOTPSlot index={0} />
                 <InputOTPSlot index={1} />
                 <InputOTPSlot index={2} />
               </InputOTPGroup>
-              <InputOTPSeparator className="mx-2" />
-              <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
+              <InputOTPSeparator className="mx-1 sm:mx-3" />
+              <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-8 sm:*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-7 sm:*:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-lg">
                 <InputOTPSlot index={3} />
                 <InputOTPSlot index={4} />
                 <InputOTPSlot index={5} />
@@ -81,11 +85,11 @@ export function InputOTPForm({
           </div>
         </Field>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="bg-light5">
         <Field>
           <Button
             type="submit"
-            className="w-full text-xl"
+            className="text-lg disabled:bg-mid bg-container-background2"
             disabled={verificationCode.length !== 6}
             onClick={() => handleVerifyEmail(verificationCode)}
           >
