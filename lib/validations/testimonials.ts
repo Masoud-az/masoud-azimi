@@ -1,4 +1,5 @@
 import z from "zod";
+import { testimonialStatus } from "../db/schema/testimonials";
 
 export const createTestimonialSchema = z
   .object({
@@ -15,3 +16,14 @@ export const deleteTestimonialSchema = z
   .strict();
 
 export type DeleteTestimonialSchema = z.infer<typeof deleteTestimonialSchema>;
+
+export const updateTestimonialStatusSchema = z
+  .object({
+    testimonialId: z.uuid(),
+    status: z.enum(["APPROVED", "REJECTED"]),
+  })
+  .strict();
+
+export type UpdateTestimonialStatusSchema = z.infer<
+  typeof updateTestimonialStatusSchema
+>;

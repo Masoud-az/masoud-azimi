@@ -33,25 +33,24 @@ const containerVariants = {
   exit: { transition: { staggerChildren: 0.1 } },
 };
 
+type CurrentUser = {
+  id: string;
+  role: "USER" | "ADMIN";
+};
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const { isLoaded, isSignedIn } = useUser();
   const [refreshKey, setRefreshKey] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
+  const { isLoaded, isSignedIn } = useUser();
   const startIndex = (currentPage - 1) * 4;
   const visibleComments = testimonials.slice(startIndex, startIndex + 4);
   const totalPages = Array.from({ length: Math.ceil(testimonials.length / 4) });
-
-  type CurrentUser = {
-    id: string;
-    role: "USER" | "ADMIN";
-  };
-
-  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (currentPage > totalPages.length && totalPages.length > 0) {
@@ -133,6 +132,56 @@ export default function Testimonials() {
     }
   };
 
+  const handleStatusUpdate = async (
+    testimonialId: string,
+    status: "APPROVED" | "REJECTED",
+  ) => {
+    if (updatingId || deletingId) return;
+
+    setUpdatingId(testimonialId);
+
+    try {
+      const response = await fetch("/api/testimonials", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ testimonialId, status }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setUpdatingId("");
+        throw new Error(data.error || "Testimonial status update failed");
+      }
+
+      setTestimonials((prev) =>
+        prev.map((item) =>
+          item.id === testimonialId
+            ? { ...item, status: data.testimonial.status }
+            : item,
+        ),
+      );
+
+      toast.add({
+        type: "success",
+        description:
+          status === "APPROVED"
+            ? "دیدگاه با موفقیت تایید شد"
+            : "دیدگاه با موفقیت رد شد",
+      });
+
+      setUpdatingId("");
+    } catch (error) {
+      console.error("Update testimonial status:", error);
+
+      toast.add({
+        type: "error",
+        description: "تغییر وضعیت دیدگاه با مشکل مواجه شد",
+      });
+      setUpdatingId("");
+    }
+  };
+
   return (
     <div className="md:col-span-2">
       <motion.div
@@ -193,6 +242,11 @@ export default function Testimonials() {
                           }
                           isDeleting={comment.id === deletingId}
                           onDelete={() => handleDelete(comment.id)}
+                          canModerate={currentUser?.role === "ADMIN"}
+                          isUpdating={comment.id === updatingId}
+                          onStatusChange={(status) => {
+                            handleStatusUpdate(comment.id, status);
+                          }}
                         />
                       </motion.div>
                     );

@@ -4,8 +4,10 @@ import { users } from "@/lib/db/schema/users";
 import {
   createTestimonialSchema,
   deleteTestimonialSchema,
+  updateTestimonialStatusSchema,
 } from "@/lib/validations/testimonials";
 import { auth } from "@clerk/nextjs/server";
+import { error } from "console";
 import { and, desc, eq, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
   if (!validation.success) {
     return NextResponse.json(
       {
-        error: "Invalid testimonial ID",
+        error: "Invalid testimonial content",
         issues: validation.error.issues,
       },
       { status: 400 },
@@ -230,6 +232,91 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json(
       { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const [user] = await db
+      .select({
+        id: users.id,
+        role: users.role,
+      })
+      .from(users)
+      .where(eq(users.clerkUserId, userId))
+      .limit(1);
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    if (user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    let body: unknown;
+
+    try {
+      body = await request.json();
+    } catch (error) {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    const validation = updateTestimonialStatusSchema.safeParse(body);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: "Invalid request data", issues: validation.error.issues },
+        { status: 400 },
+      );
+    }
+
+    const { testimonialId, status } = validation.data;
+
+    const [updatedTestimonial] = await db
+      .update(testimonials)
+      .set({
+        status: status,
+        reviewedAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .where(eq(testimonials.id, testimonialId))
+      .returning({
+        id: testimonials.id,
+        status: testimonials.status,
+        reviewedAt: testimonials.reviewedAt,
+      });
+
+    if (!updatedTestimonial) {
+      return NextResponse.json(
+        { error: "Testimonial not found" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        message: "Testimonial status updated successfully",
+        success: true,
+        testimonial: updatedTestimonial,
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("PATCH api:", error);
+
+    return NextResponse.json(
+      {
+        error: "Internal server error",
+      },
       { status: 500 },
     );
   }
