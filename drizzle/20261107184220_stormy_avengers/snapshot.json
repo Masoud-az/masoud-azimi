@@ -1,0 +1,78 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "0bc6820e-0bb2-4142-b3ad-a40c8320fd97",
+  "prevIds": [
+    "9ab3a5f0-ea31-4024-96e5-a1d8ce4b3590"
+  ],
+  "footprints": [
+    {
+      "statementType": "drop_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "type"
+      ],
+      "writes": [
+        "s|col|public.offerings.type",
+        "n|col|public.offerings.type",
+        "e|col|public.offerings.type"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "is_published"
+      ],
+      "writes": [
+        "s|col|public.offerings.is_published",
+        "n|col|public.offerings.is_published",
+        "e|col|public.offerings.is_published"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_enum",
+      "statementTarget": [
+        "enum",
+        "public",
+        "offering_type"
+      ],
+      "writes": [
+        "s|enum|public.offering_type",
+        "n|enum|public.offering_type",
+        "e|enum|public.offering_type",
+        "n|type|public.offering_type"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "drop",
+      "key": "enums\u0000[\"public\",\"offering_type\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"offerings\",\"type\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"offerings\",\"is_published\"]"
+    }
+  ]
+}

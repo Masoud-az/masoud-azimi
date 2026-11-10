@@ -1,0 +1,47 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "c21cfe9a-018e-41b1-a699-437b1918a8d3",
+  "prevIds": [
+    "c51ce444-ab5e-4837-9008-522f02abdfa5"
+  ],
+  "footprints": [
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "is_visible"
+      ],
+      "writes": [
+        "s|col|public.offerings.is_visible",
+        "n|col|public.offerings.is_visible",
+        "e|col|public.offerings.is_visible"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "offerings",
+        "name": "is_visible",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "true",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    }
+  ]
+}

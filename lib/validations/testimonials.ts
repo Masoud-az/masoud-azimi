@@ -1,5 +1,4 @@
 import z from "zod";
-import { testimonialStatus } from "../db/schema/testimonials";
 
 export const createTestimonialSchema = z
   .object({

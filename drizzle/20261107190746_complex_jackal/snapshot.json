@@ -1,0 +1,47 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "c51ce444-ab5e-4837-9008-522f02abdfa5",
+  "prevIds": [
+    "0bc6820e-0bb2-4142-b3ad-a40c8320fd97"
+  ],
+  "footprints": [
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "image_public_id"
+      ],
+      "writes": [
+        "s|col|public.offerings.image_public_id",
+        "n|col|public.offerings.image_public_id",
+        "e|col|public.offerings.image_public_id"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "offerings",
+        "name": "image_public_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    }
+  ]
+}
