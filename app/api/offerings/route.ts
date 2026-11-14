@@ -13,6 +13,29 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
 export const runtime = "nodejs";
 
+function extractYouTubeVideoId(value: string): string | null {
+  if (!value) return null;
+
+  const url = new URL(value);
+  const hostname = url.hostname.toLowerCase();
+
+  if (hostname === "youtu.be") {
+    return url.pathname.split("/").filter(Boolean)[0] ?? null;
+  }
+
+  if (url.pathname === "/watch") {
+    return url.searchParams.get("v");
+  }
+
+  const pathParts = url.pathname.split("/").filter(Boolean);
+
+  if (["shorts", "embed"].includes(pathParts[0])) {
+    return pathParts[1] ?? null;
+  }
+
+  return null;
+}
+
 export async function POST(request: Request) {
   let uploadedPublicId: string | null = null;
 
@@ -54,6 +77,9 @@ export async function POST(request: Request) {
       description: formData.get("description"),
       durationText: formData.get("durationText") || undefined,
       registrationInfo: formData.get("registrationInfo") || undefined,
+      youtubeVideoUrl: formData.get("youtubeVideoUrl") || "",
+      price: formData.get("price") || "",
+      discountPercent: formData.get("discountPercent") || "",
     };
 
     const validation = createOfferingSchema.safeParse(rawFields);
@@ -89,6 +115,10 @@ export async function POST(request: Request) {
 
     uploadedPublicId = uploadedImage.public_id;
 
+    const youtubeVideoId = extractYouTubeVideoId(
+      validation.data.youtubeVideoUrl ?? "",
+    );
+
     const [offering] = await db
       .insert(offerings)
       .values({
@@ -97,6 +127,9 @@ export async function POST(request: Request) {
         description: validation.data.description,
         durationText: validation.data.durationText || null,
         registrationInfo: validation.data.registrationInfo || null,
+        youtubeVideoId,
+        price: validation.data.price ?? null,
+        discountPercent: validation.data.discountPercent ?? null,
         imagePublicId: uploadedImage.public_id,
         imageUrl: uploadedImage.secure_url,
       })
@@ -105,6 +138,9 @@ export async function POST(request: Request) {
         title: offerings.title,
         imageUrl: offerings.imageUrl,
         createdAt: offerings.createdAt,
+        youtubeVideoId: offerings.youtubeVideoId,
+        price: offerings.price,
+        discountPercent: offerings.discountPercent,
       });
 
     if (!offering) {
@@ -162,6 +198,9 @@ export async function GET() {
         imageUrl: offerings.imageUrl,
         durationText: offerings.durationText,
         registrationInfo: offerings.registrationInfo,
+        youtubeVideoId: offerings.youtubeVideoId,
+        price: offerings.price,
+        discountPercent: offerings.discountPercent,
         isVisible: offerings.isVisible,
         sortOrder: offerings.sortOrder,
         createdAt: offerings.createdAt,

@@ -1,0 +1,115 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "88e81fa7-4ecb-4139-b73e-2d5ccb3fab3a",
+  "prevIds": [
+    "c21cfe9a-018e-41b1-a699-437b1918a8d3"
+  ],
+  "footprints": [
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "youtube_video_id"
+      ],
+      "writes": [
+        "s|col|public.offerings.youtube_video_id",
+        "n|col|public.offerings.youtube_video_id",
+        "e|col|public.offerings.youtube_video_id"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "price"
+      ],
+      "writes": [
+        "s|col|public.offerings.price",
+        "n|col|public.offerings.price",
+        "e|col|public.offerings.price"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "offerings",
+        "discount_percent"
+      ],
+      "writes": [
+        "s|col|public.offerings.discount_percent",
+        "n|col|public.offerings.discount_percent",
+        "e|col|public.offerings.discount_percent"
+      ],
+      "reads": [
+        "n|tbl|public.offerings",
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "offerings",
+        "name": "youtube_video_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "offerings",
+        "name": "price",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "offerings",
+        "name": "discount_percent",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    }
+  ]
+}

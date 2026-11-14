@@ -23,6 +23,9 @@ export type Offering = {
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
+  youtubeVideoId: string | null;
+  price: number | null;
+  discountPercent: number | null;
 };
 
 export function ManageOfferings({

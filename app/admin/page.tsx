@@ -6,6 +6,7 @@ import { ManageOfferings } from "@/components/admin/manage-offerings";
 import type { Offering } from "@/components/admin/manage-offerings";
 import Reveal from "@/components/animations/reveal";
 import SiteHeader from "@/components/site-header";
+import ManageTestimonials from "@/components/admin/manage-testimonials";
 
 export default function AdminPage() {
   const [selectedOffering, setSelectedOffering] = useState<
@@ -51,6 +52,10 @@ export default function AdminPage() {
           refreshKey={refreshKey}
           onRefresh={refreshOfferings}
         />
+      </Reveal>
+
+      <Reveal>
+        <ManageTestimonials />
       </Reveal>
     </main>
   );

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createOfferingSchema,
   type CreateOfferingSchema,
+  type CreateOfferingInput,
 } from "@/lib/validations/offerings";
 import { motion } from "motion/react";
 import { Field, FieldError, FieldLabel } from "../ui/field";
@@ -34,7 +35,7 @@ export function CreateOfferingForm({
 
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const form = useForm<CreateOfferingSchema>({
+  const form = useForm<CreateOfferingInput, unknown, CreateOfferingSchema>({
     resolver: zodResolver(createOfferingSchema),
     defaultValues: {
       title: offering?.title ?? "",
@@ -42,6 +43,14 @@ export function CreateOfferingForm({
       description: offering?.description ?? "",
       durationText: offering?.durationText ?? "",
       registrationInfo: offering?.registrationInfo ?? "",
+      youtubeVideoUrl: offering?.youtubeVideoId
+        ? `https://www.youtube.com/watch?v=${offering.youtubeVideoId}`
+        : "",
+      price: offering?.price != null ? String(offering.price) : "",
+      discountPercent:
+        offering?.discountPercent != null
+          ? String(offering.discountPercent)
+          : "",
     },
   });
 
@@ -52,6 +61,14 @@ export function CreateOfferingForm({
       description: offering?.description ?? "",
       durationText: offering?.durationText ?? "",
       registrationInfo: offering?.registrationInfo ?? "",
+      youtubeVideoUrl: offering?.youtubeVideoId
+        ? `https://www.youtube.com/watch?v=${offering.youtubeVideoId}`
+        : "",
+      price: offering?.price != null ? String(offering.price) : "",
+      discountPercent:
+        offering?.discountPercent != null
+          ? String(offering.discountPercent)
+          : "",
     });
 
     setSelectedImage(null);
@@ -83,6 +100,19 @@ export function CreateOfferingForm({
       formData.append("description", values.description);
       formData.append("durationText", values.durationText ?? "");
       formData.append("registrationInfo", values.registrationInfo ?? "");
+      formData.append("youtubeVideoUrl", values.youtubeVideoUrl ?? "");
+
+      formData.append(
+        "price",
+        values.price === undefined ? "" : String(values.price),
+      );
+
+      formData.append(
+        "discountPercent",
+        values.discountPercent === undefined
+          ? ""
+          : String(values.discountPercent),
+      );
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
@@ -279,6 +309,66 @@ export function CreateOfferingForm({
               errors={[form.formState.errors.registrationInfo]}
             ></FieldError>
           </Field>
+          <Field data-invalid={!!form.formState.errors.youtubeVideoUrl}>
+            <FieldLabel
+              htmlFor="youtubeVideoUrl"
+              className="lg:text-4xl text-light5 lg:mr-2"
+            >
+              لینک ویدیو تیزر در یوتوب (اختیاری)
+            </FieldLabel>
+            <Input
+              id="youtubeVideoUrl"
+              type="url"
+              placeholder="https://www.youtube.com/watch?v=..."
+              aria-invalid={!!form.formState.errors.youtubeVideoUrl}
+              {...form.register("youtubeVideoUrl")}
+              className="bg-container-background2 lg:rounded-2xl border-none text-light4 lg:text-xl lg:p-4 lg:h-16"
+            />
+            <FieldError
+              errors={[form.formState.errors.youtubeVideoUrl]}
+            ></FieldError>
+          </Field>
+          <div className="flex gap-8">
+            <Field data-invalid={!!form.formState.errors.price}>
+              <FieldLabel
+                htmlFor="price"
+                className="lg:text-4xl text-light5 lg:mr-2"
+              >
+                قیمت (تومان)
+              </FieldLabel>
+              <Input
+                id="price"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="۲۰۰۰۰۰۰"
+                aria-invalid={!!form.formState.errors.price}
+                {...form.register("price")}
+                className="bg-container-background2 lg:rounded-2xl border-none text-light4 lg:text-xl lg:p-4 lg:h-16"
+              />
+              <FieldError errors={[form.formState.errors.price]} />
+            </Field>
+            <Field data-invalid={!!form.formState.errors.discountPercent}>
+              <FieldLabel
+                htmlFor="discountPercent"
+                className="lg:text-4xl text-light5 lg:mr-2"
+              >
+                تخفیف (درصد)
+              </FieldLabel>
+              <Input
+                id="discountPercent"
+                type="number"
+                min="0"
+                max="100"
+                step="1"
+                placeholder="۲۰"
+                aria-invalid={!!form.formState.errors.discountPercent}
+                {...form.register("discountPercent")}
+                className="bg-container-background2 lg:rounded-2xl border-none text-light4 lg:text-xl lg:p-4 lg:h-16"
+              />
+              <FieldError errors={[form.formState.errors.discountPercent]} />
+            </Field>
+          </div>
         </div>
         <Field data-invalid={!!imageError} className="mt-6">
           <FieldLabel className="lg:text-4xl text-light5 lg:mr-2">

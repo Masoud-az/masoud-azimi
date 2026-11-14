@@ -8,7 +8,6 @@ import { twMerge } from "tailwind-merge";
 import { AnimatePresence, easeOut, motion } from "motion/react";
 import Reveal from "./animations/reveal";
 import { useUser } from "@clerk/nextjs";
-import { toast } from "./ui/toast";
 
 type Testimonial = {
   id: string;
@@ -100,88 +99,6 @@ export default function Testimonials() {
     return () => controller.abort();
   }, [isLoaded, isSignedIn, refreshKey]);
 
-  const handleDelete = async (testimonialId: string) => {
-    const confirmed = window.confirm("از حدف این دیدگاه اطمینان دارید؟");
-
-    if (!confirmed || deletingId) return;
-
-    setDeletingId(testimonialId);
-
-    try {
-      const response = await fetch("/api/testimonials", {
-        method: "DELETE",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ testimonialId }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Testimonial deletion failed");
-      }
-
-      setTestimonials((prev) =>
-        prev.filter((item) => item.id !== testimonialId),
-      );
-    } catch (error) {
-      console.error("Delete testimonial:", error);
-      toast.add({
-        type: "error",
-        description: "حدف دیدگاه با مشکل مواجه شد!",
-      });
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
-  const handleStatusUpdate = async (
-    testimonialId: string,
-    status: "APPROVED" | "REJECTED",
-  ) => {
-    if (updatingId || deletingId) return;
-
-    setUpdatingId(testimonialId);
-
-    try {
-      const response = await fetch("/api/testimonials", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ testimonialId, status }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setUpdatingId("");
-        throw new Error(data.error || "Testimonial status update failed");
-      }
-
-      setTestimonials((prev) =>
-        prev.map((item) =>
-          item.id === testimonialId
-            ? { ...item, status: data.testimonial.status }
-            : item,
-        ),
-      );
-
-      toast.add({
-        type: "success",
-        description:
-          status === "APPROVED"
-            ? "دیدگاه با موفقیت تایید شد"
-            : "دیدگاه با موفقیت رد شد",
-      });
-
-      setUpdatingId("");
-    } catch (error) {
-      console.error("Update testimonial status:", error);
-
-      toast.add({
-        type: "error",
-        description: "تغییر وضعیت دیدگاه با مشکل مواجه شد",
-      });
-      setUpdatingId("");
-    }
-  };
-
   return (
     <div className="md:col-span-2">
       <motion.div
@@ -236,17 +153,6 @@ export default function Testimonials() {
                           name={`${comment.firstName} ${comment.lastName}`}
                           comment={comment.content}
                           status={comment.status}
-                          canDelete={
-                            currentUser?.role === "ADMIN" ||
-                            currentUser?.id === comment.userId
-                          }
-                          isDeleting={comment.id === deletingId}
-                          onDelete={() => handleDelete(comment.id)}
-                          canModerate={currentUser?.role === "ADMIN"}
-                          isUpdating={comment.id === updatingId}
-                          onStatusChange={(status) => {
-                            handleStatusUpdate(comment.id, status);
-                          }}
                         />
                       </motion.div>
                     );

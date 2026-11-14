@@ -14,6 +14,9 @@ export const offerings = pgTable("offerings", {
   description: text("description").notNull(),
   imageUrl: text("image_url").notNull(),
   imagePublicId: text("image_public_id").notNull(),
+  youtubeVideoId: text("youtube_video_id"),
+  price: integer("price"),
+  discountPercent: integer("discount_percent"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

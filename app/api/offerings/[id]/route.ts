@@ -18,6 +18,29 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
+function extractYouTubeVideoId(value: string): string | null {
+  if (!value) return null;
+
+  const url = new URL(value);
+  const hostname = url.hostname.toLowerCase();
+
+  if (hostname === "youtu.be") {
+    return url.pathname.split("/").filter(Boolean)[0] ?? null;
+  }
+
+  if (url.pathname === "/watch") {
+    return url.searchParams.get("v");
+  }
+
+  const pathParts = url.pathname.split("/").filter(Boolean);
+
+  if (["shorts", "embed"].includes(pathParts[0])) {
+    return pathParts[1] ?? null;
+  }
+
+  return null;
+}
+
 export async function PATCH(request: Request, { params }: RouteContext) {
   let uploadedPublicId: string | null = null;
   let databaseUpdated = false;
@@ -83,6 +106,9 @@ export async function PATCH(request: Request, { params }: RouteContext) {
       description: formData.get("description"),
       durationText: formData.get("durationText") || undefined,
       registrationInfo: formData.get("registrationInfo") || undefined,
+      youtubeVideoUrl: formData.get("youtubeVideoUrl") || "",
+      price: formData.get("price") || "",
+      discountPercent: formData.get("discountPercent") || "",
     };
 
     const validation = createOfferingSchema.safeParse(rawFields);
@@ -130,6 +156,10 @@ export async function PATCH(request: Request, { params }: RouteContext) {
       uploadedPublicId = uploadedImage.public_id;
     }
 
+    const youtubeVideoId = extractYouTubeVideoId(
+      validation.data.youtubeVideoUrl ?? "",
+    );
+
     const [updatedOffering] = await db
       .update(offerings)
       .set({
@@ -138,6 +168,11 @@ export async function PATCH(request: Request, { params }: RouteContext) {
         description: validation.data.description,
         durationText: validation.data.durationText || null,
         registrationInfo: validation.data.registrationInfo || null,
+
+        youtubeVideoId,
+        price: validation.data.price ?? null,
+        discountPercent: validation.data.discountPercent ?? null,
+
         updatedAt: new Date(),
         ...(uploadedImage
           ? {
@@ -155,6 +190,9 @@ export async function PATCH(request: Request, { params }: RouteContext) {
         imageUrl: offerings.imageUrl,
         durationText: offerings.durationText,
         registrationInfo: offerings.registrationInfo,
+        youtubeVideoId: offerings.youtubeVideoId,
+        price: offerings.price,
+        discountPercent: offerings.discountPercent,
         updatedAt: offerings.updatedAt,
       });
 
