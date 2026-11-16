@@ -1,6 +1,5 @@
 "use client";
 
-import { delay } from "motion";
 import { easeOut, motion } from "motion/react";
 
 export default function RevealRight({

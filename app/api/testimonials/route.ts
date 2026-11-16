@@ -7,7 +7,6 @@ import {
   updateTestimonialStatusSchema,
 } from "@/lib/validations/testimonials";
 import { auth } from "@clerk/nextjs/server";
-import { error } from "console";
 import { and, desc, eq, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

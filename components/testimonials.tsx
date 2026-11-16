@@ -32,19 +32,12 @@ const containerVariants = {
   exit: { transition: { staggerChildren: 0.1 } },
 };
 
-type CurrentUser = {
-  id: string;
-  role: "USER" | "ADMIN";
-};
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const { isLoaded, isSignedIn } = useUser();
   const startIndex = (currentPage - 1) * 4;
@@ -77,11 +70,9 @@ export default function Testimonials() {
 
         const data: {
           testimonials: Testimonial[];
-          currentUser: CurrentUser | null;
         } = await response.json();
 
         setTestimonials(data.testimonials);
-        setCurrentUser(data.currentUser);
         setCurrentPage(1);
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -100,16 +91,16 @@ export default function Testimonials() {
   }, [isLoaded, isSignedIn, refreshKey]);
 
   return (
-    <div className="md:col-span-2">
+    <div id="testimonials" className="md:col-span-2">
       <motion.div
         layout
         dir="rtl"
         className="bg-container-background xl:w-[90%] 2xl:w-[80%] max-w-[1800px] p-2 md:p-6 mt-6 mx-auto rounded-3xl md:rounded-4xl flex flex-col shadow-2xl"
       >
-        <h2 className="text-2xl md:text-4xl xl:text-6xl font-MyAccentFont text-light2 mt-14 md:mt-8 text-center">
+        <h2 className="text-2xl md:text-4xl xl:text-6xl font-MyAccentFont text-light2 mt-4 xl:mt-14 md:mt-8 text-center">
           از تجربه‌ات با من بگو
         </h2>
-        <div className="mt-8 md:mt-1 flex flex-col items-center">
+        <div className="mt-2 md:mt-1 flex flex-col items-center">
           <TestimonialsForm
             onSuccess={() => setRefreshKey((prev) => prev + 1)}
           />
@@ -122,15 +113,15 @@ export default function Testimonials() {
           className="bg-container-background3 xl:w-[90%] 2xl:w-[80%] max-w-[1800px] p-2 md:p-4 xl:p-6 mt-6 mx-auto rounded-3xl md:rounded-4xl flex flex-col shadow-2xl"
         >
           {isLoading ? (
-            <p className="text-light4 text-2xl text-center py-12">
+            <p className="text-light3 text-lg md:text-2xl text-center p-2 sm:p-4">
               در حال دریافت دیدگاه‌ها...
             </p>
           ) : error ? (
-            <p className="text-light4 text-2xl text-center py-12">
+            <p className="text-light3 text-lg md:text-2xl  text-center p-2 sm:p-4">
               دریافت دیدگاه‌ها با مشکل مواجه شد. لطفاً دوباره تلاش کنید.
             </p>
           ) : testimonials.length === 0 ? (
-            <p className="text-light4 text-2xl text-center py-12">
+            <p className="text-light3 text-lg md:text-2xl  text-center p-2 sm:p-4">
               هنوز دیدگاهی ثبت نشده است. اولین نفری باش که تجربه‌ات را به اشتراک
               می‌گذاری!
             </p>

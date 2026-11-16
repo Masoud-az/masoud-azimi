@@ -83,7 +83,7 @@ export default function TestimonialsForm({ onSuccess }: TestimonialsFormProps) {
         name="comment"
         value={comment}
         onChange={(event) => setComment(event.target.value)}
-        className="w-full bg-mid shadow-2xs rounded-3xl h-48 mb-6 p-4 md:p-6 text-sm md:text-xl text-light4"
+        className="w-full bg-mid shadow-2xs rounded-3xl h-48 mb-3 p-4 md:p-6 text-lg md:text-xl text-light5"
         maxLength={500}
         placeholder="اینجا بنویس..."
       />
@@ -91,7 +91,7 @@ export default function TestimonialsForm({ onSuccess }: TestimonialsFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-light4 py-2 px-6 md:px-12 rounded-full transition-all duration-500 text-container-background text-lg md:text-2xl shadow-2xs hover:bg-container-background3 hover:text-light4"
+        className="bg-light5 cursor-pointer py-1 px-3 md:px-12 rounded-full transition-all duration-500 text-container-background text-lg md:text-2xl shadow-2xs hover:bg-container-background3 hover:text-light5"
       >
         {isSubmitting ? "در حال ارسال..." : "ثبت"}
       </button>

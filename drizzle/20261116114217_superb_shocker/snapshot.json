@@ -1,0 +1,174 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "c2b3e24f-373c-4169-9124-3bafb6c849bf",
+  "prevIds": [
+    "88e81fa7-4ecb-4139-b73e-2d5ccb3fab3a"
+  ],
+  "footprints": [
+    {
+      "statementType": "drop_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "blog_posts"
+      ],
+      "writes": [
+        "s|tbl|public.blog_posts",
+        "n|tbl|public.blog_posts",
+        "e|tbl|public.blog_posts",
+        "n|rel|public.blog_posts",
+        "n|type|public.blog_posts"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "registration_requests"
+      ],
+      "writes": [
+        "s|tbl|public.registration_requests",
+        "n|tbl|public.registration_requests",
+        "e|tbl|public.registration_requests",
+        "n|rel|public.registration_requests",
+        "n|type|public.registration_requests"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_enum",
+      "statementTarget": [
+        "enum",
+        "public",
+        "registration_status"
+      ],
+      "writes": [
+        "s|enum|public.registration_status",
+        "n|enum|public.registration_status",
+        "e|enum|public.registration_status",
+        "n|type|public.registration_status"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "drop",
+      "key": "tables\u0000[\"public\",\"blog_posts\"]"
+    },
+    {
+      "op": "drop",
+      "key": "tables\u0000[\"public\",\"registration_requests\"]"
+    },
+    {
+      "op": "drop",
+      "key": "enums\u0000[\"public\",\"registration_status\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"youtube_video_id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"slug\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"title\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"thumbnail_url\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"youtube_published_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"is_pinned\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"is_published\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"published_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"created_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"blog_posts\",\"updated_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"user_id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"offering_id\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"message\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"status\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"created_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"registration_requests\",\"updated_at\"]"
+    },
+    {
+      "op": "drop",
+      "key": "fks\u0000[\"public\",\"registration_requests\",\"registration_requests_user_id_users_id_fkey\"]"
+    },
+    {
+      "op": "drop",
+      "key": "fks\u0000[\"public\",\"registration_requests\",\"registration_requests_offering_id_offerings_id_fkey\"]"
+    },
+    {
+      "op": "drop",
+      "key": "pks\u0000[\"public\",\"blog_posts\",\"blog_posts_pkey\"]"
+    },
+    {
+      "op": "drop",
+      "key": "pks\u0000[\"public\",\"registration_requests\",\"registration_requests_pkey\"]"
+    },
+    {
+      "op": "drop",
+      "key": "uniques\u0000[\"public\",\"blog_posts\",\"blog_posts_youtube_video_id_key\"]"
+    },
+    {
+      "op": "drop",
+      "key": "uniques\u0000[\"public\",\"blog_posts\",\"blog_posts_slug_key\"]"
+    }
+  ]
+}

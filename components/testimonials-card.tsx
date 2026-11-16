@@ -17,11 +17,11 @@ export default function TestimonialsCard({
   return (
     <div
       dir="rtl"
-      className="bg-container-background rounded-3xl p-2 md:p-6 shadow-2xl mt-4 relative overflow-hidden"
+      className={`${status === "REJECTED" ? "hidden" : ""} bg-container-background rounded-3xl p-2 md:p-6 shadow-2xl mt-4 relative overflow-hidden`}
     >
       <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-3 lg:mb-4 mt-2 lg:mt-0 lg:ml-24">
         {status === "PENDING" && (
-          <span className="text-xs md:text-sm px-3 py-1 rounded-xl text-amber-500 bg-amber-800/50">
+          <span className="text-xs md:text-sm px-3 py-1 rounded-xl text-light3 bg-amber-800/20">
             در انتظار تأیید ادمین
           </span>
         )}

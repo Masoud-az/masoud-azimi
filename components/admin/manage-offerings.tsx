@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ToastDescription } from "@base-ui/react/toast";
 import { toast } from "../ui/toast";
 
 type ManageOfferingsProps = {

@@ -9,55 +9,18 @@ import SignInModal from "./auth/sign-in-modal";
 import { DropdownMenuIcons } from "./drop-down-menu-icons";
 import { toast } from "./ui/toast";
 import { useAuthModal } from "./auth/auth-modal-context";
+import Link from "next/link";
 
 export default function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [signInModalOpen, setSignInModalOpen] = useState(false);
-  // const openSignUp = () => setIsOpen(true);
-  // const onClose = () => setIsOpen(false);
-  // const onSignInClose = () => setSignInModalOpen(false);
-  const { user } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
   const [profile, setProfile] = useState<{
     firstName: string;
     lastName: string;
   } | null>(null);
+  const [isProfileLoading, setIsProfileLoading] = useState(false);
 
-  const {
-    signInModalOpen,
-    signUpModalOpen,
-    openSignIn,
-    openSignUp,
-    closeSignIn,
-    closeSignUp,
-  } = useAuthModal();
-
-  const fetchUserInPersian = async () => {
-    try {
-      const response = await fetch("api/users/me", {
-        method: "GET",
-        headers: { "content-type": "application/json" },
-      });
-
-      if (!response.ok && user) {
-        toast.add({
-          type: "error",
-          description: "مشخصات کاربر در دسترس نیست",
-        });
-        setProfile(null);
-        return;
-      }
-
-      const data = await response.json();
-      setProfile(data);
-    } catch {
-      toast.add({
-        type: "error",
-        description: "اختلال در سرور",
-      });
-      setProfile(null);
-    }
-  };
+  const { openSignIn, openSignUp } = useAuthModal();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -72,8 +35,53 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    fetchUserInPersian();
-  }, [user]);
+    if (!isLoaded) return;
+
+    if (!isSignedIn) {
+      setProfile(null);
+      setIsProfileLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchProfile = async () => {
+      setIsProfileLoading(true);
+
+      try {
+        const response = await fetch("/api/users/me", {
+          method: "GET",
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user profile");
+        }
+
+        const data = await response.json();
+        setProfile(data);
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+          return;
+        }
+
+        setProfile(null);
+
+        toast.add({
+          type: "error",
+          description: "مشخصات کاربر در دسترس نیست",
+        });
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsProfileLoading(false);
+        }
+      }
+    };
+
+    fetchProfile();
+
+    return () => controller.abort();
+  }, [isLoaded, isSignedIn, user?.id]);
 
   return (
     <header
@@ -109,12 +117,13 @@ export default function SiteHeader() {
           className={`relative flex items-center justify-start transition-opacity duration-900  gap-4 ${isScrolled ? "opacity-0" : ""}`}
         >
           <Show when="signed-out">
-            <span
+            <Link
+              href={`/`}
               dir="ltr"
-              className="text-light5 text-lg mt-0.5 md:text-2xl absolute left-2 w-42 sm:w-60"
+              className="text-light5 text-lg mt-0.5 cursor-pointer md:text-2xl absolute left-2 w-42 sm:w-60"
             >
               Masoud-Azimi.com
-            </span>
+            </Link>
           </Show>
           <Show when="signed-in">
             <span

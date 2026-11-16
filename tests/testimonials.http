@@ -1,7 +1,0 @@
-### Create testimonial - unauthenticated
-POST http://localhost:3000/api/testimonials
-Content-Type: application/json
-
-{
-  "content": "This is a test comment"
-}

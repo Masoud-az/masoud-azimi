@@ -5,52 +5,14 @@ import Card from "./card";
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
-import { easeInOut, motion } from "motion/react";
+import { motion } from "motion/react";
 import Reveal from "./animations/reveal";
-
-export const cardData = [
-  {
-    id: "111",
-    imageSrc: "/images/Cover.jpg",
-    heading: "گیتارالکتریک برای نوآموزان ۱",
-    description:
-      "دوره آفلاین بیش از ۶۰۰ دقیقه ویدیو و ۱۰۰ صفحه جزوه کتبی به همراه پشتیبانی آنلاین... دیگه خلاصه خیلی خوبه",
-  },
-  {
-    id: "112",
-    imageSrc: "/images/Cover.jpg",
-    heading: "گیتارالکتریک برای نوآموزان ۲",
-    description:
-      "دوره آفلاین بیش از ۶۰۰ دقیقه ویدیو و ۱۰۰ صفحه جزوه کتبی به همراه پشتیبانی آنلاین... دیگه خلاصه خیلی خوبه",
-  },
-  {
-    id: "113",
-    imageSrc: "/images/Cover.jpg",
-    heading: "گیتارالکتریک برای نوآموزان ۳",
-    description:
-      "دوره آفلاین بیش از ۶۰۰ دقیقه ویدیو و ۱۰۰ صفحه جزوه کتبی به همراه پشتیبانی آنلاین... دیگه خلاصه خیلی خوبه",
-  },
-  {
-    id: "114",
-    imageSrc: "/images/Cover.jpg",
-    heading: "گیتارالکتریک برای نوآموزان ۴",
-    description:
-      "دوره آفلاین بیش از ۶۰۰ دقیقه ویدیو و ۱۰۰ صفحه جزوه کتبی به همراه پشتیبانی آنلاین... دیگه خلاصه خیلی خوبه",
-  },
-  {
-    id: "115",
-    imageSrc: "/images/Cover.jpg",
-    heading: "گیتارالکتریک برای نوآموزان ۵",
-    description:
-      "دوره آفلاین بیش از ۶۰۰ دقیقه ویدیو و ۱۰۰ صفحه جزوه کتبی به همراه پشتیبانی آنلاین... دیگه خلاصه خیلی خوبه",
-  },
-];
 
 type CardData = {
   id: string;
   imageSrc: string;
   heading: string;
-  description: string;
+  shortDescription: string;
 };
 
 type CarouselProps = {
@@ -58,7 +20,7 @@ type CarouselProps = {
 };
 
 export default function Carousel({ items }: CarouselProps) {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const goToNext = () => {
     if (items.length === 0) return;
@@ -133,11 +95,12 @@ export default function Carousel({ items }: CarouselProps) {
                 handleDragEnd(info.offset.x, info.velocity.x);
               }}
             >
-              <Reveal delay={isActive ? 0 : Number(item.id.slice(-1)) * 0.1}>
+              <Reveal delay={isActive ? 0 : index * 0.1}>
                 <Card
+                  offeringId={item.id}
                   imageSrc={item.imageSrc}
                   heading={item.heading}
-                  description={item.description}
+                  description={item.shortDescription}
                   isActive={isActive}
                 />
               </Reveal>
@@ -150,10 +113,10 @@ export default function Carousel({ items }: CarouselProps) {
         className="absolute flex items-center gap-2 md:gap-4 bottom-0.5 left-1/2 -translate-x-1/2"
       >
         <button
-          className=" h-8 md:h-10 w-8 md:w-10 border-2 border-mid rounded-full flex justify-center items-center group hover:bg-light4"
+          className=" h-8 md:h-10 w-8 md:w-10 border-2 border-mid rounded-full flex justify-center items-center group hover:bg-light3"
           onClick={goToPrevious}
         >
-          <ArrowBigLeft className="text-light4 group-hover:text-background" />
+          <ArrowBigLeft className="text-light3 group-hover:text-background" />
         </button>
         <div className="flex gap-2 md:gap-4">
           {items.map((item, index) => (
@@ -165,8 +128,8 @@ export default function Carousel({ items }: CarouselProps) {
                 clsx(
                   "h-3.5 md:h-4.5 rounded-full transition-all duration-300",
                   index === activeIndex
-                    ? "w-6 md:w-9 bg-light4"
-                    : "w-3.5 md:w-4.5 border-2 border-light4 hover:bg-light4",
+                    ? "w-6 md:w-9 bg-light3"
+                    : "w-3.5 md:w-4.5 border-2 border-light3 hover:bg-light3",
                 ),
               )}
             ></button>
@@ -176,7 +139,7 @@ export default function Carousel({ items }: CarouselProps) {
           className="h-8 md:h-10 w-8 md:w-10 border-2 border-mid rounded-full flex justify-center items-center  group hover:bg-light4"
           onClick={goToNext}
         >
-          <ArrowBigRight className="text-light4 group-hover:text-background" />
+          <ArrowBigRight className="text-light3 group-hover:text-background" />
         </button>
       </div>
     </div>

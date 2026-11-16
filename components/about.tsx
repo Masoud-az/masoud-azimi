@@ -1,5 +1,4 @@
 import Image from "next/image";
-import RevealLeft from "./animations/reveal-left";
 import RevealRight from "./animations/reveal-right";
 
 export default function About() {
@@ -11,12 +10,12 @@ export default function About() {
     >
       <div className="flex flex-col md:p-6  xl:p-12">
         <RevealRight duration={0.5}>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl mr-8 md:mr-0 text-light font-MyAccentFont ">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl mr-8 md:mr-0 text-light3 font-MyAccentFont ">
             درباره من
           </h2>
         </RevealRight>
         <RevealRight duration={0.5} delay={0.5}>
-          <p className="text-sm sm:text-lg md:text-2xl text-light4 mt-4 md:mt-6 xl:mt-12 sm:px-4 sm:leading-8 xl:leading-10 ">
+          <p className="text-sm sm:text-lg md:text-2xl text-light5 mt-4 md:mt-6 xl:mt-12 sm:px-4 sm:leading-8 xl:leading-10 ">
             مسعود عظیمی‌ هستم، مدرس و نوازنده‌ی گیتار الکتریک. آغاز راه من در
             مسیر پر فراز و نشیب موسیقی به سال ۱۳۹۱ برمی‌گردد. در ابتدا زیر نظر
             اساتید برجسته پرورش یافتم، اما به مرور مسیر خودآموزی با متدهای

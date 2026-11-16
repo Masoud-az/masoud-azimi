@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toast";
 import { AuthModalProvider } from "@/components/auth/auth-modal-context";
+import UserRoleProvider from "@/components/providers/user-role-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -19,8 +20,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <html lang="en" className={cn("font-sans", inter.variable)}>
         <body>
           <AuthModalProvider>
-            <main>{children}</main>
-            <Toaster />
+            <UserRoleProvider>
+              <main>{children}</main>
+              <Toaster />
+            </UserRoleProvider>
           </AuthModalProvider>
         </body>
       </html>

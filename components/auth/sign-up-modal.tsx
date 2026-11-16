@@ -2,7 +2,7 @@
 
 import { useSignUp } from "@clerk/nextjs";
 import { Form, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { InputOTPForm } from "../input-otp-form";
 import { toast } from "../ui/toast";
 import { useAuthModal } from "./auth-modal-context";
